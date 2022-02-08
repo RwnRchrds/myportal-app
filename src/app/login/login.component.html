@@ -1,0 +1,94 @@
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root bg-body min-h-100">
+  <!--begin::Authentication - Sign-in -->
+  <div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-image: url(/assets/media/illustrations/sketchy-1/14.png)">
+    <!--begin::Content-->
+    <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
+      <!--begin::Logo-->
+      <div class="mb-12">
+        <img alt="Logo" src="/assets/media/myportal/myporal_login_logo.png" class="h-70px" />
+      </div>
+      <!--end::Logo-->
+      <!--begin::Wrapper-->
+      <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
+        <!--begin::Form-->
+        <form [formGroup]="loginForm" (ngSubmit)="login()" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="#">
+          <!--begin::Heading-->
+          <div class="text-center mb-10">
+            <!--begin::Title-->
+            <h1 class="text-dark mb-3">{{schoolName}}</h1>
+            <!--end::Title-->
+            <!--begin::Link-->
+            <!--end::Link-->
+          </div>
+          <div *ngIf="showError" class="text-center mb-10">
+            <p class="error-text">{{error}}</p>
+          </div>
+          <!--begin::Heading-->
+          <!--begin::Input group-->
+          <div class="fv-row mb-10">
+            <!--begin::Label-->
+            <label class="form-label fs-6 fw-bolder text-dark">Username</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            <input formControlName="username" class="form-control form-control-lg form-control-solid" type="text" name="username" autocomplete="off" />
+            <div *ngIf="username.touched && !username.valid" class="fv-plugins-message-container invalid-feedback">
+              <div>Username is required</div>
+            </div>
+            <!--end::Input-->
+          </div>
+          <!--end::Input group-->
+          <!--begin::Input group-->
+          <div class="fv-row mb-10">
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-stack mb-2">
+              <!--begin::Label-->
+              <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
+              <!--end::Label-->
+            </div>
+            <!--end::Wrapper-->
+            <!--begin::Input-->
+            <input formControlName="password" class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" />
+            <div *ngIf="password.touched && !password.valid" class="fv-plugins-message-container invalid-feedback">
+              <div>Password is required</div>
+            </div>
+            <!--end::Input-->
+          </div>
+          <!--end::Input group-->
+          <!--begin::Actions-->
+          <div class="text-center">
+            <!--begin::Submit button-->
+            <button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
+              <span class="indicator-label">Log In</span>
+            </button>
+            <!--end::Submit button-->
+          </div>
+          <!--end::Actions-->
+        </form>
+        <!--end::Form-->
+      </div>
+      <!--end::Wrapper-->
+    </div>
+    <!--end::Content-->
+    <!--begin::Footer-->
+    <div class="d-flex flex-center flex-column-auto p-10">
+      <!--begin::Links-->
+      <div class="d-flex align-items-center fw-bold fs-6">
+        <span class="text-muted px-2">&copy;&nbsp;{{currentDate | date: 'yyyy'}} Pearson Richards</span>
+      </div>
+      <!--end::Links-->
+    </div>
+    <!--end::Footer-->
+  </div>
+  <!--end::Authentication - Sign-in-->
+</div>
+<!--end::Root-->
+<!--end::Main-->
+<!--begin::Javascript-->
+<script>var hostUrl = "/assets/";</script>
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script src="/assets/plugins/global/plugins.bundle.js"></script>
+<script src="/assets/js/scripts.bundle.js"></script>
+<!--end::Global Javascript Bundle-->
+<!--end::Javascript-->

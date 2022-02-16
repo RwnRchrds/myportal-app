@@ -23,8 +23,8 @@ export class AuthService {
 
   loadFromStorage(): Observable<boolean> | boolean {
     let token = JSON.parse(localStorage.getItem('token'));
+    token.type = parseInt(token.type);
     if (token) {
-      token.type = parseInt(token.type);
       this.token = token;
       if (this.isAuthenticated()) {
         if (!this.isTokenValid()) {

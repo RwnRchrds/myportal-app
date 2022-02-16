@@ -6,8 +6,9 @@ import {GetTokenResponseModel} from "../../models/response/getTokenResponseModel
 import {StoredToken} from "../../models/auth/storedToken";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AppError} from "../../errors/appError";
-import {UserTypes} from "../../models/auth/userTypes";
+import {UserType} from "../../models/auth/userType";
 import {LoggedInUserModel} from "../../models/auth/loggedInUserModel";
+import {AuthenticationService} from "../api/authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,28 +21,37 @@ export class AuthService {
   constructor(private tokenService: TokenService) {
   }
 
-  loadFromStorage(): void {
+  loadFromStorage(): Observable<boolean> | boolean {
     let token = JSON.parse(localStorage.getItem('token'));
+    token.type = parseInt(token.type);
     if (token) {
       this.token = token;
-
-      // Do not need to refresh token immediately on app startup
-      /*if (this.isAuthenticated() && !this.isTokenValid()) {
-        this.refreshToken().pipe(map((response: boolean) => {
-          if (!response) {
-            this.logout();
-          }
-        }));
-      }*/
+      if (this.isAuthenticated()) {
+        if (!this.isTokenValid()) {
+          return this.refreshToken().pipe(map((response: boolean) => {
+            if (!response) {
+              this.logout();
+              return false;
+            }
+            return true;
+          }));
+        }
+        return true;
+      }
     }
+    return false;
   }
 
   getToken(): StoredToken {
     return this.token;
   }
 
-  getUserType(): UserTypes {
-    if (!this.isAuthenticated()){
+  getUser(): LoggedInUserModel {
+    return this.user;
+  }
+
+  getUserType(): UserType {
+    if (!this.isAuthenticated()) {
       return null;
     }
     return this.token.type;
@@ -52,7 +62,7 @@ export class AuthService {
   }
 
   isTokenValid(): boolean {
-    var expireDate = new Date(this.token.expires);
+    let expireDate = new Date(this.token.expires);
     return this.isAuthenticated() && expireDate > new Date();
   }
 

@@ -1,7 +1,7 @@
 import {GetTokenResponseModel} from "../response/getTokenResponseModel";
 import jwtDecode from "jwt-decode";
 import {JwtPayloadExtended} from "./jwtPayloadExtended";
-import {UserTypes} from "./userTypes";
+import {UserType} from "./userType";
 
 export class StoredToken {
   accessToken: string;
@@ -9,7 +9,7 @@ export class StoredToken {
   expires: Date;
   tokenType: string;
   scope: string;
-  type: UserTypes;
+  type: UserType;
 
   constructor(response: GetTokenResponseModel) {
     let tokenInfo = jwtDecode<JwtPayloadExtended>(response.access_token);

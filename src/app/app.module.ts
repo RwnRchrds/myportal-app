@@ -13,6 +13,9 @@ import {BASE_PATH} from "./shared/variables";
 import { LoginComponent } from './login/login.component';
 import {AppRoutingModule} from "./app-routing/app-routing.module";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
+import {LayoutModule} from "./staff/metronic/layout";
+import {TranslationModule} from "./shared/modules/i18n";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    TranslateModule.forRoot(),
     StaffModule,
     StudentModule,
     ParentModule,

@@ -19,7 +19,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'staff',
-    loadChildren: () => import('../staff/staff.module').then(m => m.StaffModule),
+    loadChildren: () => import('../staff/metronic/layout/layout.module').then(m => m.LayoutModule),
     data: {userType: UserType.Staff},
     canLoad: [UserTypeGuard]
   }

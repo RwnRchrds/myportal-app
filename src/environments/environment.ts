@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:44313'
+  appVersion: '1.0.0',
+  apiUrl: 'https://localhost:44313',
+  tempUrl: 'https://google.co.uk'
 };
 
 /*

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {PageInfoService} from "../../../metronic/layout";
 
 @Component({
   selector: 'app-staff-home',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StaffHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private pageInfo: PageInfoService) { }
 
   ngOnInit(): void {
+    this.pageInfo.updateTitle('Home');
   }
 
 }

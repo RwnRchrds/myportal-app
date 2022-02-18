@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
         if (result) {
           // Successful login
           this.error = '';
+          location.reload();
         }
         else {
           this.error = 'An error occurred during login.';

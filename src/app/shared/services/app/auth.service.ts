@@ -18,15 +18,16 @@ export class AuthService {
   private token: StoredToken;
   private user: LoggedInUserModel;
 
-  constructor(private tokenService: TokenService) {
+  constructor(private tokenService: TokenService, private apiAuthService: AuthenticationService) {
   }
 
-  loadFromStorage(): Observable<boolean> | boolean {
+  loadFromStorage(): boolean {
     let token = JSON.parse(localStorage.getItem('token'));
-    token.type = parseInt(token.type);
     if (token) {
+      token.type = parseInt(token.type);
       this.token = token;
-      if (this.isAuthenticated()) {
+      return true;
+      /*if (this.isAuthenticated()) {
         if (!this.isTokenValid()) {
           return this.refreshToken().pipe(map((response: boolean) => {
             if (!response) {
@@ -37,7 +38,7 @@ export class AuthService {
           }));
         }
         return true;
-      }
+      }*/
     }
     return false;
   }
@@ -48,6 +49,13 @@ export class AuthService {
 
   getUser(): LoggedInUserModel {
     return this.user;
+  }
+
+  updateUserInfo(): Observable<LoggedInUserModel> {
+    return this.apiAuthService.getUserInfo().pipe(map((response: LoggedInUserModel) => {
+      this.user = response;
+      return response;
+    }));
   }
 
   getUserType(): UserType {

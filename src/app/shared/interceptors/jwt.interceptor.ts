@@ -21,7 +21,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && !authReq.url.includes('connect/token') && error.status === 401) {
-        return this.handle401Error(authReq, next);
+        return this.refreshToken(authReq, next);
       }
       else if (error.error instanceof String || typeof error.error === 'string') {
         let appError = new AppError(error, error.error);
@@ -31,11 +31,11 @@ export class JwtInterceptor implements HttpInterceptor {
     }))
   }
 
-  private handle401Error(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  private refreshToken(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       if (this.authService.isAuthenticated()) {
-        return this.authService.refreshToken().pipe(map((result: boolean) => result), switchMap((result: boolean) => {
+        return this.authService.refreshToken().pipe(switchMap((result: boolean) => {
           this.isRefreshing = false;
           return next.handle(this.injectToken(request));
         }), catchError((err) => {
@@ -45,7 +45,6 @@ export class JwtInterceptor implements HttpInterceptor {
         }));
       }
     }
-
     return next.handle(this.injectToken(request));
   }
 

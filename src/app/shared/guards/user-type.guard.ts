@@ -3,7 +3,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanLoad,
-  Route,
+  Route, Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree
@@ -16,19 +16,26 @@ import {UserType} from "../models/auth/userType";
   providedIn: 'root'
 })
 export class UserTypeGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
   }
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['login'])
       return false;
     }
 
     let userType = route.data['userType'] as UserType;
     let token = this.authService.getToken();
 
-    return token.type === userType;
+    if (token.type === userType) {
+      return true;
+    }
+    else {
+      this.router.navigate(['login']);
+      return false;
+    }
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

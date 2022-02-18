@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {PreloadAllModules, Router, RouterModule, Routes} from "@angular/router";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {PreloadAllModules, RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "../login/login.component";
 import {UserTypeGuard} from "../shared/guards/user-type.guard";
 import {UserType} from "../shared/models/auth/userType";
@@ -21,6 +21,18 @@ const appRoutes: Routes = [
     path: 'staff',
     loadChildren: () => import('../staff/metronic/layout/layout.module').then(m => m.LayoutModule),
     data: {userType: UserType.Staff},
+    canLoad: [UserTypeGuard]
+  },
+  {
+    path: 'student',
+    loadChildren: () => import('../student/metronic/layout/layout.module').then(m => m.LayoutModule),
+    data: {userType: UserType.Student},
+    canLoad: [UserTypeGuard]
+  },
+  {
+    path: 'parent',
+    loadChildren: () => import('../parent/metronic/layout/layout.module').then(m => m.LayoutModule),
+    data: {userType: UserType.Parent},
     canLoad: [UserTypeGuard]
   }
 ]

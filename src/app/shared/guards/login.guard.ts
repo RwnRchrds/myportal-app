@@ -16,20 +16,8 @@ export class LoginGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authService.isAuthenticated()) {
-      let token = this.authService.getToken();
-      switch (token.type) {
-        case UserType.Staff:
-          this.router.navigate(['staff/home']);
-          return false;
-        case UserType.Student:
-          this.router.navigate(['student/home']);
-          return false;
-        case UserType.Parent:
-          this.router.navigate(['parent/home']);
-          return false;
-        default:
-          return false;
-      }
+      let promise = this.authService.redirectToHome();
+      return false;
     }
     return true;
   }

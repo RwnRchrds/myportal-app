@@ -1,0 +1,40 @@
+<ng-container *ngIf="user">
+  <div class="menu-item px-3">
+    <div class="menu-content d-flex align-items-center px-3">
+      <div class="symbol symbol-50px me-5">
+        <img *ngIf="showProfileImage; else noProfileImage" src="{{user.profileImage}}" alt="metronic" />
+        <ng-template #noProfileImage>
+      <span class="symbol-label bg-lighten">
+        <i class="fas fa-fw fa-user text-dark"></i>
+      </span>
+        </ng-template>
+      </div>
+
+      <div class="d-flex flex-column">
+        <div class="fw-bolder d-flex align-items-center fs-5">
+          {{ user.displayName }}
+          <span class="badge badge-light-danger fw-bolder fs-8 px-2 py-1 ms-2"
+            >Parent</span
+          >
+        </div>
+        <a class="fw-bold text-muted text-hover-primary fs-7 cursor-pointer">
+          {{ user.displayName }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator my-2"></div>
+
+  <div class="menu-item px-5">
+    <a routerLink="/" class="menu-link px-5">
+      My Profile
+    </a>
+  </div>
+
+  <div class="separator my-2"></div>
+
+  <div class="menu-item px-5">
+    <a (click)="logout()" class="menu-link px-5 cursor-pointer"> Sign Out </a>
+  </div>
+</ng-container>

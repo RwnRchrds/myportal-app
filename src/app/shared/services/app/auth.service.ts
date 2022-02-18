@@ -9,6 +9,7 @@ import {AppError} from "../../errors/appError";
 import {UserType} from "../../models/auth/userType";
 import {LoggedInUserModel} from "../../models/auth/loggedInUserModel";
 import {AuthenticationService} from "../api/authentication.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService {
   private token: StoredToken;
   private user: LoggedInUserModel;
 
-  constructor(private tokenService: TokenService, private apiAuthService: AuthenticationService) {
+  constructor(private tokenService: TokenService, private apiAuthService: AuthenticationService, private router: Router) {
   }
 
   loadFromStorage(): boolean {
@@ -41,6 +42,23 @@ export class AuthService {
       }*/
     }
     return false;
+  }
+
+  redirectToHome(): Promise<boolean> {
+    if (this.isAuthenticated()) {
+      let token = this.getToken();
+      switch (token.type) {
+        case UserType.Staff:
+          return this.router.navigate(['staff/home']);
+        case UserType.Student:
+          return this.router.navigate(['student/home']);
+        case UserType.Parent:
+          return this.router.navigate(['parent/home']);
+        default:
+          return this.router.navigate(['login']);
+      }
+    }
+    return this.router.navigate(['login']);
   }
 
   getToken(): StoredToken {

@@ -22,9 +22,8 @@ export class AppComponent implements OnInit{
       return;
     }
     else {
-      console.log('Logged in. Token valid');
+      console.log('Logged in.');
       this.authService.updateUserInfo().pipe(map(() => {
-        console.log('Get user success.');
         this.allowLoad = true;
       })).subscribe();
     }
